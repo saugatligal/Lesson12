@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="/Users/macmini/AndroidStudioProjects/Infodroid/app/build/intermediates/exploded-aar/Infodroid/mylibrary/unspecified/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="a350a55ef3a5b683537a8610e92dccdc4273f120">
+        <dex dex="/Users/macmini/AndroidStudioProjects/Infodroid/app/build/intermediates/pre-dexed/debug/classes-02b2002e8ddc2211735dc1a7f768d82b2ad7ec36.jar" />
+    </item>
+
+</items>
