@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -16,8 +17,15 @@ import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.saugatligal.infodroid.R;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import adapter.NewsAdapter;
+import model.News;
 import utilities.GlobalClass;
 
 
@@ -40,6 +48,11 @@ public class HealthnewsFragment extends android.support.v4.app.Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+    News news;
+
+    ArrayList<News> newsArrayList = new ArrayList<News>();
+    NewsAdapter newsAdapter;
+    ListView newsList;
 
     /**
      * Use this factory method to create a new instance of
@@ -76,7 +89,11 @@ public class HealthnewsFragment extends android.support.v4.app.Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_healthnews, container, false);
+       View view = inflater.inflate(R.layout.fragment_healthnews, container, false);
+        newsList = (ListView)view.findViewById(R.id.news_listview);
+        newsAdapter = new NewsAdapter(getActivity(),newsArrayList);
+        newsList.setAdapter(newsAdapter);
+return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -97,7 +114,7 @@ public class HealthnewsFragment extends android.support.v4.app.Fragment {
         }*/
         String tag_json_obj = "json_obj_req";
 
-        String url = "http://api.androidhive.info/volley/person_object.json";
+        String url = "https://www.kimonolabs.com/api/37m80m76?apikey=1BUuF7TLyOcPd7RrjGDh0G43fGaYpaPV";
 
 
 
@@ -106,8 +123,39 @@ public class HealthnewsFragment extends android.support.v4.app.Fragment {
                 new Response.Listener<JSONObject>() {
 
                     @Override
-                    public void onResponse(JSONObject response) {
-                        Log.d("RESPONSE", response.toString());
+                    public void onResponse(JSONObject response)
+                        {
+                            Log.d("RESPONSE", response.toString());
+
+                            try {
+                                String jsonObject = response.getString("results");
+                                JSONObject jsonObject1 = new JSONObject(jsonObject);
+
+                                JSONArray jsonArray = jsonObject1.getJSONArray("data");
+                                for(int i = 0 ; i<jsonArray.length();i++){
+                                    JSONObject c = jsonArray.getJSONObject(i);
+
+                                    //     String id = c.getString("Title");
+                                  //  JSONObject titleObject = c.getJSONObject("title");
+                                 //   String title = titleObject.getString("text");
+
+
+                                    JSONObject imageurlObject = c.getJSONObject("image");
+                                    String title = imageurlObject.getString("alt");
+                                    String imageurl = imageurlObject.getString("src");
+
+                                    //   String desc = c.getString(TAG_ADDRESS);
+                                    //  String gender = c.getString(TAG_GENDER);
+                                    news= new News(title,imageurl,"hello");
+                                    newsArrayList.add(news);
+                                }
+
+
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
 
                     }
                 }, new Response.ErrorListener() {

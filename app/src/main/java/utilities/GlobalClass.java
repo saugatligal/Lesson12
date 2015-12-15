@@ -11,6 +11,8 @@ import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
+import com.parse.Parse;
+import com.parse.ParseInstallation;
 
 
 /**
@@ -31,7 +33,11 @@ public class GlobalClass extends Application {
         super.onCreate();
         mInstance = this;
 
+// for initializing parse with api key
+        Parse.initialize(this, "68qfh4soLmYJxxwmktbEogKkuS5CJUjycZstXdxg", "ATEglX8qaK4aHyEdK43Vje9SnMAw66Zh0g3tpuZI");
+        ParseInstallation.getCurrentInstallation().saveInBackground();
 
+///for image loader
                 ImageLoaderConfiguration.Builder config = new ImageLoaderConfiguration.Builder(getApplicationContext());
         config.threadPriority(Thread.NORM_PRIORITY - 2);
         config.denyCacheImageMultipleSizesInMemory();
